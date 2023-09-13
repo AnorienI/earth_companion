@@ -91,7 +91,7 @@ def get_country_info(city):
     if not validate_input(city):  # Check if input is in valid format
         return
     input_value = city.lower()
-    country_code = input_value.split(",")[-1].strip()
+    country_code = input_value.split(",")[-1].strip().upper()
     country_info = CountryInfo(country_code)
 
     currencies = country_info.currencies()

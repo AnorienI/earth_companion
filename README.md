@@ -4,7 +4,7 @@ Actually, it is two (2) applications: project.py and project1.py. Unfortunately 
 
 In the terminal window application the user is prompted to input a city followed by a two letter country code, separated by a comma. The program prints out the current weather, the city's population and coordinates, and some information about the country in which the city is found (country name, currency, language, country population).
 
-### Video Demo: [Watch the Demo Video]https://youtu.be/zVJBZe8VzPc
+### Video Demo: [Watch the Demo Video]https://youtu.be/ZGFM5_Vwtvk?si=DwzsVH8MMkcXT46k
 
 #### Description:
 The WeatherApp is a simple Python program that allows users to retrieve weather information for a given location. Inspired by my father's self-taught weather prediction skills using a barometer. I remember him approaching this old antiquated barometer and tap onto its glass top as if to get the pointer ustuck (the pointer was never stuck) and then predict faultlessly the weather. Another thing my father had done was to provide me with books, at a time when there was not even television, let alone computers and internet. I 'traveled' the world through the pages of those books, and that's why I included the geographical information.  This app serves as a humble tribute to his memory.
@@ -51,4 +51,4 @@ Since our 'barometer' is digital and there's no needle, here's how to read the o
 
 *Created with nostalgia and code by [Anestis Mystakidis]*
 
-[Watch the Demo Video]https://youtu.be/zVJBZe8VzPc
+[Watch the Demo Video]https://youtu.be/ZGFM5_Vwtvk?si=TvgyibE6bEjIplZV
