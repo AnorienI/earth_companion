@@ -3,3 +3,4 @@ PIL
 from countryinfo import CountryInfo
 (for the tkinter application only) tkinter
 (for the tkinter application only) PIL
+(for the tkinter application only)the provided Flags folder must be in the same folder as the project1.py file for the Flag button to work.
