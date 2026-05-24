@@ -20,7 +20,7 @@ def fetch_weather():
     if not validate_input(city):
         return
 
-    site = 'http://api.openweathermap.org/data/2.5/weather'
+    site = 'https://api.openweathermap.org/data/2.5/weather'
     inputs = {'q': city, 'units': 'metric', 'appid': 'd26548b0b8421b1c42613df1ec20ed49'}
     response = requests.get(url=site, params=inputs)
     data = response.json()
@@ -54,7 +54,7 @@ def get_coordinates():
     if not validate_input(city):
         return
 
-    site = 'http://api.openweathermap.org/data/2.5/weather'
+    site = 'https://api.openweathermap.org/data/2.5/weather'
     inputs = {'q': city, 'units': 'metric', 'lang':'pt', 'appid': 'd26548b0b8421b1c42613df1ec20ed49'}
     response = requests.get(url=site, params=inputs)
     data = response.json()
@@ -104,7 +104,7 @@ def fetch_flag():
     global flag_frame, flag_label
 
     city = entry.get()
-    country_code = city.split(",")[-1].strip()
+    country_code = city.split(",")[-1].strip().upper()
     country_info = CountryInfo(country_code)
     country_name = country_info.name()
 
