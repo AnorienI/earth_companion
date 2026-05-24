@@ -3,7 +3,7 @@ import requests
 import json
 import iso4217
 from countryinfo import CountryInfo
-from iso639 import Lang
+import pycountry
 
 
 def validate_input(city):
@@ -46,7 +46,7 @@ def fetch_weather(city):
     if not validate_input(city):
         return
 
-    site = "http://api.openweathermap.org/data/2.5/weather"
+    site = "https://api.openweathermap.org/data/2.5/weather"
     inputs = {"q": city, "units": "metric", "appid": "d26548b0b8421b1c42613df1ec20ed49"}
     response = requests.get(url=site, params=inputs)
     data = response.json()
@@ -67,7 +67,7 @@ def get_coordinates(city):
     if not validate_input(city):
         return
 
-    site = "http://api.openweathermap.org/data/2.5/weather"
+    site = "https://api.openweathermap.org/data/2.5/weather"
     inputs = {
         "q": city,
         "units": "metric",
@@ -101,7 +101,15 @@ def get_country_info(city):
     area = country_info.area()
     formatted_area = "{:,}".format(int(area))
     full_currency_names = [currency_mapping.get(code, code) for code in currencies]
-    full_language_names = [Lang(code).name for code in language]
+    full_language_names = []
+
+    for code in language:
+        lang = pycountry.languages.get(alpha_2=code)
+
+        if lang:
+            full_language_names.append(lang.name)
+        else:
+            full_language_names.append(code)
     formatted_population = "{:,}".format(int(population))
 
     result_text = (

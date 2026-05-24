@@ -1,8 +1,17 @@
-tkinter
-PIL
-from countryinfo import CountryInfo
-(for the tkinter application only) tkinter
-(for the tkinter application only) PIL
-(for the tkinter application only)the provided Flags folder must be in the same folder as the project1.py file for the Flag button to work.
-iso421 # for the language formatted (full) name
-iso639 # for the currency formatted name
+certifi==2026.4.22
+charset-normalizer==3.4.7
+common==0.1.2
+countryinfo==1.0.1
+idna==3.13
+iso4217==1.16.20260101
+iso639==0.1.4
+mysql-connector==2.2.9
+mysql-connector-python==9.7.0
+numpy==2.4.4
+pandas==3.0.2
+pycountry==26.2.16
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.2
+requests==2.33.1
+six==1.17.0
+urllib3==2.7.0
