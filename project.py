@@ -10,6 +10,7 @@ import os
 load_dotenv()
 
 GEONAMES_USER = os.getenv("GEONAMES_USER")
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
 
 def validate_input(city):
@@ -77,7 +78,7 @@ def get_coordinates(city):
         "q": city,
         "units": "metric",
         "lang": "pt",
-        "appid": "d26548b0b8421b1c42613df1ec20ed49",
+        "appid": "api-key",
     }
     response = requests.get(url=site, params=inputs)
     data = response.json()

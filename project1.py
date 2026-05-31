@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GEONAMES_USER = os.getenv("GEONAMES_USER")
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
 
 flag_frame = None
@@ -64,7 +65,7 @@ def get_coordinates():
         return
 
     site = 'https://api.openweathermap.org/data/2.5/weather'
-    inputs = {'q': city, 'units': 'metric', 'lang':'pt', 'appid': 'd26548b0b8421b1c42613df1ec20ed49'}
+    inputs = {'q': city, 'units': 'metric', 'lang':'pt', 'appid': 'api_key'}
     response = requests.get(url=site, params=inputs)
     data = response.json()
 
