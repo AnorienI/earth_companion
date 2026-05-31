@@ -4,6 +4,15 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from countryinfo import CountryInfo
 import json
+import os
+import sys
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+GEONAMES_USER = os.getenv("GEONAMES_USER")
+
 
 flag_frame = None
 flag_label = None
@@ -37,14 +46,14 @@ def fetch_weather():
         result_label.config(text='Error fetching weather data', font=large_font)
 
 def get_city_population(city):
-    endpoint = f'http://api.geonames.org/searchJSON?q={city}&maxRows=10&username=anorien'
+    endpoint = f'http://api.geonames.org/searchJSON?q={city}&maxRows=10&username={GEONAMES_USER}'
     response = requests.get(endpoint)
     jsonResponse = json.loads(response.text)
 
     if 'geonames' in jsonResponse and jsonResponse['geonames']:
         population = jsonResponse['geonames'][0].get('population', 'N/A')
         formatted_population = "{:,}".format(int(population))
-        result_label.config(text=f"Populatio of {city}: {formatted_population}", font=large_font)
+        result_label.config(text=f"Population of {city}: {formatted_population}", font=large_font)
     else:
         result_label.config(text='No data available for this city.')
 
@@ -108,16 +117,21 @@ def fetch_flag():
     country_info = CountryInfo(country_code)
     country_name = country_info.name()
 
-    flag_path = f"flags/{country_code}.png"  # Assuming flag PNG files are stored in a "flags" folder
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
+
+    flag_path = os.path.join(base_path, "flags", f"{country_code}.png")
 
     try:
         flag_image = Image.open(flag_path)
-        flag_image = flag_image.resize((50, 50), Image.LANCZOS)  # Use Image.LANCZOS for Lanczos resampling
+        flag_image = flag_image.resize((50, 50), Image.LANCZOS)
         flag_photo = ImageTk.PhotoImage(flag_image)
 
         if flag_frame is None:
             flag_frame = tk.Frame(window)
-            flag_frame.place(x=135, y=350, anchor='nw')  # Adjust the y position as needed
+            flag_frame.place(x=135, y=350, anchor='nw')
 
         if flag_label is not None:
             flag_label.pack_forget()
@@ -126,7 +140,6 @@ def fetch_flag():
         flag_label.image = flag_photo
         flag_label.pack()
 
-        # Update the window to resize and display the flag
         window.update_idletasks()
 
     except FileNotFoundError:

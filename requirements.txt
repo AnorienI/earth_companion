@@ -1,5 +1,6 @@
 countryinfo==1.0.1
 iso4217==1.16.20260101
-iso639==0.1.4
+pillow==12.2.0
 pycountry==26.2.16
-requests==2.33.1
+python-dotenv==1.2.2
+requests==2.34.2

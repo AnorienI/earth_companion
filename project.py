@@ -4,6 +4,12 @@ import json
 import iso4217
 from countryinfo import CountryInfo
 import pycountry
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+GEONAMES_USER = os.getenv("GEONAMES_USER")
 
 
 def validate_input(city):
@@ -29,7 +35,7 @@ def get_data_from_geonames(endpoint):
 
 def get_city_population(city):
     endpoint = (
-        f"http://api.geonames.org/searchJSON?q={city}&maxRows=10&username=anorien"
+        f"http://api.geonames.org/searchJSON?q={city}&maxRows=10&username={GEONAMES_USER}"
     )
     response = requests.get(endpoint)
     jsonResponse = json.loads(response.text)
@@ -40,7 +46,6 @@ def get_city_population(city):
         print(f"Population of {city.capitalize()}: {formatted_population}")
     else:
         print("Population data not available for the specified city.")
-
 
 def fetch_weather(city):
     if not validate_input(city):
