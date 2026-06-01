@@ -1,7 +1,6 @@
 import re
 import requests
 import json
-import iso4217
 from countryinfo import CountryInfo
 import pycountry
 from dotenv import load_dotenv
@@ -20,18 +19,9 @@ def validate_input(city):
     return True
 
 
-# Create a mapping of currency codes to full names using the iso4217 module
-currency_mapping = {code: iso4217.Currency(code).name for code in iso4217.Currency}
-
-
-def get_data_from_geonames(endpoint):
-    response = requests.get(endpoint)
-    jsonResponse = json.loads(response.text)
-
-    if "geonames" in jsonResponse and jsonResponse["geonames"]:
-        return jsonResponse["geonames"][0]
-    else:
-        return None
+def get_currency_name(code):
+    currency = pycountry.currencies.get(alpha_3=code)
+    return currency.name if currency else code
 
 
 def get_city_population(city):
@@ -48,16 +38,17 @@ def get_city_population(city):
     else:
         print("Population data not available for the specified city.")
 
+
 def fetch_weather(city):
     if not validate_input(city):
         return
 
     site = "https://api.openweathermap.org/data/2.5/weather"
-    inputs = {"q": city, "units": "metric", "appid": "d26548b0b8421b1c42613df1ec20ed49"}
+    inputs = {"q": city, "units": "metric", "appid": API_KEY} # CORRIGIDO AQUI
     response = requests.get(url=site, params=inputs)
     data = response.json()
 
-    if data["cod"] == 200:
+    if data.get("cod") == 200:
         weather_description = data["weather"][0]["description"]
         temperature = data["main"]["temp"]
         humidity = data["main"]["humidity"]
@@ -78,12 +69,12 @@ def get_coordinates(city):
         "q": city,
         "units": "metric",
         "lang": "pt",
-        "appid": "api-key",
+        "appid": API_KEY # CORRIGIDO AQUI
     }
     response = requests.get(url=site, params=inputs)
     data = response.json()
 
-    if data["cod"] == 200:
+    if data.get("cod") == 200:
         longitude = data["coord"]["lon"]
         latitude = data["coord"]["lat"]
         print(
@@ -94,7 +85,7 @@ def get_coordinates(city):
 
 
 def get_country_info(city):
-    if not validate_input(city):  # Check if input is in valid format
+    if not validate_input(city):  
         return
     input_value = city.lower()
     country_code = input_value.split(",")[-1].strip().upper()
@@ -106,7 +97,8 @@ def get_country_info(city):
     capital = country_info.capital()
     area = country_info.area()
     formatted_area = "{:,}".format(int(area))
-    full_currency_names = [currency_mapping.get(code, code) for code in currencies]
+    
+    full_currency_names = [get_currency_name(code) for code in currencies] # CORRIGIDO AQUI
     full_language_names = []
 
     for code in language:
@@ -131,7 +123,7 @@ def get_country_info(city):
 
 def main():
     city = input("Enter the city name: ")
-    if not validate_input(city):  # Check if input is in valid format
+    if not validate_input(city):  
         return
     print()
     fetch_weather(city)
