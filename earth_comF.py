@@ -8,17 +8,19 @@ import os
 import sys
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 GEONAMES_USER = os.getenv("GEONAMES_USER")
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
+
 
 flag_frame = None
 flag_label = None
 
 def validate_input(city):
     if not re.match(r"^[A-Za-z\s]+,\s[A-Za-z]{2}$", city.strip()):
-        result_label.config(text='Invalid form.\nType: "city, country code(2 letters)"', font=large_font)
+        result_label.config(text='Invalid form.\nType: "city, country code(2 letterss)"', font=large_font)
         return False
     return True
 
@@ -39,24 +41,20 @@ def fetch_weather():
         humidity = data['main']['humidity']
         pressure = data['main']['pressure']
 
-        result_text = f'Now in {city}:\nAppearance: 
-        {weather_description}\nTemperature: {temperature}°C\nHumidity: 
-        {humidity}%\nPressure: {pressure} hPa'
+        result_text = f'Now in {city}:\nAppearance: {weather_description}\nTemperature: {temperature}°C\nHumidity: {humidity}%\nPressure: {pressure} hPa'
         result_label.config(text=result_text, font=large_font)
     else:
         result_label.config(text='Error fetching weather data', font=large_font)
 
 def get_city_population(city):
-    endpoint = 
-    f'http://api.geonames.org/searchJSON?q={city}&maxRows=10&username={GEONAMES_USERf'http://api.geonames.org/searchJSON?q={city}&maxRows=10&username{GEONAMES_USER}'
+    endpoint = f'http://api.geonames.org/searchJSON?q={city}&maxRows=10&username={GEONAMES_USER}'
     response = requests.get(endpoint)
     jsonResponse = json.loads(response.text)
 
     if 'geonames' in jsonResponse and jsonResponse['geonames']:
         population = jsonResponse['geonames'][0].get('population', 'N/A')
         formatted_population = "{:,}".format(int(population))
-        result_label.config(text=f"Population of {city}: 
-        {formatted_population}", font=large_font)
+        result_label.config(text=f"Population of {city}: {formatted_population}", font=large_font)
     else:
         result_label.config(text='No data available for this city.')
 
@@ -74,8 +72,7 @@ def get_coordinates():
     if data['cod'] == 200:
         longitude = data['coord']['lon']
         latitude = data['coord']['lat']
-        result_label.config(text=f"As coordenadas de {city} sao \nLongitude: 
-        {longitude}, Latitude: {latitude}", font=large_font)
+        result_label.config(text=f"As coordenadas de {city} sao \nLongitude: {longitude}, Latitude: {latitude}", font=large_font)
     else:
         result_label.config(text='Error fetching data', font=large_font)
 
@@ -88,8 +85,7 @@ def get_country_info():
         flag_label = None
 
     input_value = entry.get()
-    country_code = input_value.split(",")[-1].strip()  # Extract the last part 
-    of input as country code
+    country_code = input_value.split(",")[-1].strip()  # Extract the last part of input as country code
     country_info = CountryInfo(country_code)
 
     # Get the full names of languages
@@ -150,10 +146,24 @@ def fetch_flag():
     except FileNotFoundError:
         result_label.config(text="Flag not found", font=large_font)
 
+
 window = tk.Tk()
 window.title('EarthCompanion, byAnestis')
 
-window.geometry('320x420')
+# Tamanho desejado para a janela
+largura = 320
+altura = 420
+
+# Captura a resolução do monitor
+largura_tela = window.winfo_screenwidth()
+altura_tela = window.winfo_screenheight()
+
+# Calcula a posição X e Y para centralizar
+posicao_x = int((largura_tela / 2) - (largura / 2))
+posicao_y = int((altura_tela / 2) - (altura / 2))
+
+# Define a geometria com tamanho e posição centralizada
+window.geometry(f'{largura}x{altura}+{posicao_x}+{posicao_y}')
 
 large_font = ('Helvetica', 12)  # You can adjust the font and size as needed
 
@@ -166,23 +176,20 @@ entry = tk.Entry(window, font=large_font)
 entry.pack()
 
 # Button - Tempo
-button_weather = tk.Button(window, text='Weather', command=fetch_weather, 
-font=large_font)
+button_weather = tk.Button(window, text='Weather', command=fetch_weather, font=large_font)
 button_weather.pack()
 
 # Button - Populacao
-button_city_population = tk.Button(window, text='Population', font=large_font, 
-command=lambda: get_city_population(entry.get()))
+button_city_population = tk.Button(window, text='Population', font=large_font, command=lambda: get_city_population(entry.get()))
 button_city_population.pack()
 
+
 # Button - oordenadas
-button_coordinates = tk.Button(window, text='Coordinates', command=get_coordinates, 
-font=large_font)
+button_coordinates = tk.Button(window, text='Coordinates', command=get_coordinates, font=large_font)
 button_coordinates.pack()
 
 # Button - Get Country Info
-button_country_info = tk.Button(window, text='Country Info', command=get_country_info, 
-font=large_font)
+button_country_info = tk.Button(window, text='Country Info', command=get_country_info, font=large_font)
 button_country_info.pack()
 
 # Result label
