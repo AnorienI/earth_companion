@@ -41,7 +41,7 @@ def fetch_weather():
         humidity = data['main']['humidity']
         pressure = data['main']['pressure']
 
-        result_text = f'Now in {city}:\nAppearance: {weather_description}\nTemperature: {temperature}°C\nHumidity: {humidity}%\nPressure: {pressure} hPa'
+        result_text = f'Now in {city.title()}:\nAppearance: {weather_description}\nTemperature: {temperature}°C\nHumidity: {humidity}%\nPressure: {pressure} hPa'
         result_label.config(text=result_text, font=large_font)
     else:
         result_label.config(text='Error fetching weather data', font=large_font)
@@ -54,7 +54,7 @@ def get_city_population(city):
     if 'geonames' in jsonResponse and jsonResponse['geonames']:
         population = jsonResponse['geonames'][0].get('population', 'N/A')
         formatted_population = "{:,}".format(int(population))
-        result_label.config(text=f"Population of {city}: {formatted_population}", font=large_font)
+        result_label.config(text=f"Population of {city.title()}: {formatted_population}", font=large_font)
     else:
         result_label.config(text='No data available for this city.')
 
@@ -72,7 +72,7 @@ def get_coordinates():
     if data['cod'] == 200:
         longitude = data['coord']['lon']
         latitude = data['coord']['lat']
-        result_label.config(text=f"As coordenadas de {city} sao \nLongitude: {longitude}, Latitude: {latitude}", font=large_font)
+        result_label.config(text=f"The coordinates of {city.title()} are \nLongitude: {longitude}, Latitude: {latitude}", font=large_font)
     else:
         result_label.config(text='Error fetching data', font=large_font)
 
