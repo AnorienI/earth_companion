@@ -78,7 +78,7 @@ def get_coordinates(city):
         "q": city,
         "units": "metric",
         "lang": "pt",
-        "appid": "api-key",
+        "appid": API_KEY
     }
     response = requests.get(url=site, params=inputs)
     data = response.json()
