@@ -132,7 +132,7 @@ def fetch_flag():
 
         if flag_frame is None:
             flag_frame = tk.Frame(window)
-            flag_frame.place(x=135, y=350, anchor='nw')
+            flag_frame.place(x=150, y=350, anchor='nw')
 
         if flag_label is not None:
             flag_label.pack_forget()
@@ -148,10 +148,10 @@ def fetch_flag():
 
 
 window = tk.Tk()
-window.title('EarthCompanion, byAnestis')
+window.title('EarthCompanion v1.0.2, byAnestis')
 
 # Tamanho desejado para a janela
-largura = 320
+largura = 360
 altura = 420
 
 # Captura a resolução do monitor
